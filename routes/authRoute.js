@@ -1,55 +1,13 @@
 const express = require("express");
-const { User } = require("../models/usersModel");
+const UserModel = require("../models/usersModel");
+const User = require("../controllers/userController");
+
 const router = express.Router();
 
-// register
-router.post("/register", async (req, res) => {
-  const { name, email, address, password } = req.body;
-  const existEmail = await User.findOne({ email });
-  if (existEmail) {
-    return res.status(400).json({ msg: `Email Is Exists..` });
-  } else {
-    const userData = new User({ name, email, password, address });
-    await userData.save();
-    res.status(201).json( userData );
-  }
-});
+router.post("/register", User.register);
 
-// login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(404).json({ msg: `email   wrong..` });
-  } else {
-    if (password != user.password) {
-      return res.status(401).json({ msg: `password wrong..` });
-    } else {
-      res.status(200).json( user);
-    }
-  }
-});
-//{ adress : {}   }
+router.post("/login", User.login);
 
-router.patch("/update/:id", async (req, res) => {
-   try {
-    const update = await User.findByIdAndUpdate(req.params.id , req.body,{
-      new:true
-    })
- 
-    res.json({
-      status :"succsess",
-      update
-    })
-   } catch (error) {
-    res.json({
-      status :"Falid",
-      error
-    })
-   }
-
-});
-
-
+router.patch("/update/:id", User.updateUser);
 
 module.exports = router;

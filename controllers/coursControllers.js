@@ -3,7 +3,7 @@ const courseModel = require("../models/coursesModel");
 class Course {
  static addNewCourse = async (req, res) => {
     const { name, duration, start } = req.body;
-    const existName = await CourseModel.findOne({ name });
+    const existName = await courseModel.findOne({ name });
     if (name) {
       return res.status(400).json({ msg: `name Is Exists..` });
     } else {

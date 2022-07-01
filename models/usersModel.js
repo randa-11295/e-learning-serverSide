@@ -22,21 +22,19 @@ const userSchema = new mongoose.Schema(
     address: {
       type: addressSchema,
     },
-    cart:[
-    {
-      type:  mongoose.Schema.Types.ObjectId,
-      ref:"courses"
-    }    ]
+    cart: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "courses",
+      },
+    ],
   },
-
 
   {
     timestamps: true,
   }
 );
 
+const User = mongoose.model("users", userSchema);
 
-const User = mongoose.model("users",userSchema)
-// const Address = mongoose.model("Users.address", addressSchema)
-
-module.exports={User }
+module.exports = User;
