@@ -9,4 +9,10 @@ router.post("/login", User.login);
 
 router.patch("/update/:id", User.updateUser);
 
+router.post("/cart", User.findCourses);
+
+router.post("/library", User.getMyCourser);
+
+router.post("/cart/remove", User.removeFromCart);
+
 module.exports = router;

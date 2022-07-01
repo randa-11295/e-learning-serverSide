@@ -13,7 +13,7 @@ class Course {
     }
   }
   
- static  getAllPosts = async (req, res) => {
+ static  getAllCourses = async (req, res) => {
     const courses = await courseModel.find({});
     if (!courses) {
       return res.status(400).json({ msg: `worng..` });
