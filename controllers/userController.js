@@ -1,4 +1,5 @@
 const UserModel = require("../models/usersModel");
+const generetToken = require("../utils/generetToken")
 
 class User {
   static login = async (req, res) => {
@@ -10,7 +11,7 @@ class User {
       if (password != user.password) {
         return res.status(401).json({ msg: `password wrong..` });
       } else {
-        res.status(200).json(user);
+        res.status(200).json({ ...user , token : generetToken(user._id) });
       }
     }
   };
@@ -31,9 +32,7 @@ class User {
       const update = await UserModel.findByIdAndUpdate(
         req.params.id,
         req.body,
-        {
-          new: true,
-        }
+        { new: true, }
       );
 
       res.json({
