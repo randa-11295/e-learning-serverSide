@@ -1,35 +1,21 @@
 const express = require("express");
-const { Course } = require("../models/coursesModel");
+const CourseModel  = require("../models/coursesModel");
 const { User } = require("../models/usersModel");
-const { unsubscribe } = require("./authRoute");
+const Course = require("../controllers/coursControllers")
 const router = express.Router();
 
 // add
-router.post("/courses/add", async (req, res) => {
-  const { name, duration, start } = req.body;
-  const existName = await Course.findOne({ name });
-  if (name) {
-    return res.status(400).json({ msg: `name Is Exists..` });
-  } else {
-    const userData = new User({ name, email, password, address });
-    await userData.save();
-    res.status(201).json(userData);
-  }
-});
+router.post("/courses/add", Course.addNewCourse);
 
-router.get("/courses", async (req, res) => {
-  const courses = await Course.find({});
-  if (!courses) {
-    return res.status(400).json({ msg: `worng..` });
-  } else {
-    res.status(200).json(courses);
-  }
-});
+
+
+router.get("/courses", Course.getAllPosts );
+
 
 router.post("/cart", async (req, res) => {
   const { userId, courseId } = req.body;
   const user = await User.findById(userId);
-  const cousrse = await Course.findById(courseId);
+  const cousrse = await CourseModel.findById(courseId);
   test = "";
   if (user && cousrse) {
     if (!user.cart.includes(courseId)) {
@@ -47,8 +33,6 @@ router.post("/cart", async (req, res) => {
     res.status(404).json({ msg: "failed" });
   }
 });
-
-
 
 
 router.post("/cart/remove", async (req, res) => {
